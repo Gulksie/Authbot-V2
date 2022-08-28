@@ -1,4 +1,5 @@
 # Written by Kayla Gulka, 2022/08/25
+# Last modified 2022/08/27
 # I am rushing, this will probably sloppy but as long as it works
 # and is stable im not too bothered
 
@@ -15,8 +16,9 @@ import EmailHandler
 intents = discord.Intents(messages=True, members=True, guilds=True)
 
 client = discord.Client(intents=intents)
-guildID = 489524063866454038
-verifiedRoleID = 790744993237172234
+guildID = 796066586041253999
+verifiedRoleID = 1013263721436545024
+channelID = 1013256400891301898
 
 # init slash commands stuff, not too sure how this works, following gist:
 # https://gist.github.com/Rapptz/c4324f17a80c94776832430007ad40e6
@@ -45,6 +47,19 @@ async def on_ready():
     # we will need to do some extra setup here, only server we should be working with
     # is EQ so that should hopefully make my life easier
     # LMAOOOO OR NOT SLASH COMMANDS ARE A GODSEND
+
+@client.event
+async def on_member_join(member):
+    print(f'New member {member.name} joined')
+    if member.id in verifiedUsers.keys():
+        guild = client.get_guild(guildID)
+        role = guild.get_role(verifiedRoleID)
+
+        await member.add_roles(role)
+        
+    else:
+        channel = client.get_channel(channelID)
+        await channel.send(f'{member.mention}, welcome to the server! Please start the verification process with the `/verify` command, and check the pins for more info')
 
 # back to slash commands
 # will I ever figure out whats going on here? No!
