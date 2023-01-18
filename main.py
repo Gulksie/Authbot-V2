@@ -1,7 +1,8 @@
 # Written by Kayla Gulka, 2022/08/25
-# Last modified 2022/08/27
 # I am rushing, this will probably sloppy but as long as it works
 # and is stable im not too bothered
+
+# Last modified 2023/01/18
 
 import discord
 from discord import app_commands
@@ -60,6 +61,13 @@ async def on_member_join(member):
     else:
         channel = client.get_channel(channelID)
         await channel.send(f'{member.mention}, welcome to the server! Please start the verification process with the `/verify` command, and check the pins for more info')
+
+@client.event
+async def on_member_remove(member):
+    print(f'Member {member.name} left')
+    if member.id in verifiedUsers.keys():
+        verifiedUsers.pop(member.id)
+        saveVerifiedUsers()
 
 # back to slash commands
 # will I ever figure out whats going on here? No!
@@ -131,7 +139,7 @@ async def redeemCode(i:discord.Interaction, code:str):
             # yay this user is legit
             await verifyUser(i.user.id, userInfo[2])
 
-            await i.response.send_message("You have been verified!", ephemeral=True)
+            await i.response.send_message("You have been verified! Please check out the rules at <#796066586825850915> next!", ephemeral=True)
 
         else:
             # invalid code

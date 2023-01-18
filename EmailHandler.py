@@ -1,5 +1,4 @@
 # Written by Kayla Gulka, 2022/08/25
-# Last modified 2022/08/26
 
 import smtplib, ssl
 
@@ -38,11 +37,11 @@ class EmailHandler:
 
     This code expiries in 5 minutes!'''
             self.emailServer.sendmail(self.usr, reciverAddress, message)
-        except smtplib.SMTPSenderRefused:
+        except (smtplib.SMTPSenderRefused, smtplib.SMTPServerDisconnected) as e:#, smtplib.SMTPServerDisconnected]:
             # restart the email thing, then try again
             self.shutdown()
             self.startEmail()
-            self.sendMail(code, reciverAddresss)
+            self.sendEmail(code, reciverAddress)
 
     def shutdown(self):
         self.emailServer.close()
