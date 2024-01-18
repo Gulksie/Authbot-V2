@@ -154,6 +154,13 @@ async def cancel(i:discord.Interaction):
         print(f"Cancelled verification for user {i.user.name}")
         await i.response.send_message("Cancelled!", ephemeral=True)
 
+@tree.command(name="manualverify", description="Manual Verification of a user through the bot (admins only)", guild=discord.Object(id=guildID))
+@app_commands.describe(usr="The user to verify", macid="The user's macID")
+async def manualverify(i:discord.Interaction, usr:discord.Member, macid:str):
+    if i.user.id in [232230909363879939, 318125041210359808, 839040531182256148]:
+        print(f"Manually verifying user {usr.name} on request of {i.user.name} with macID {macID}")
+        await verifyUser(usr.id, macID)
+
 async def verifyUser(userID, macID):
     pendingUsers.pop(userID)
 
