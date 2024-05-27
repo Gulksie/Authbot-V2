@@ -1,4 +1,5 @@
 # Written by Kayla Gulka, 2022/08/25
+# Last modified 2024/05/27
 
 import smtplib, ssl
 
@@ -28,8 +29,9 @@ class EmailHandler:
             print(f"Sending email to {reciverAddress}")
             # we will need to verify somewhere else that reciverAddress is actually a mcmaster email
             # shouldn't be hard
-            message = f'''\
-    Subject: McMaster Engiqueers Verification
+            message = f'''To: {reciverAddress}
+From: macdiscords@gmail.com
+Subject: McMaster Engiqueers Verification
 
     Hi, your code for verifications in the McMaster Engiqueers discord server is:
 
